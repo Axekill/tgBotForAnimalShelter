@@ -45,6 +45,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+    // проверка
 
 
     private void startCommand(Long chatId, String userName, String firstName, String lastName) {
