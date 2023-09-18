@@ -27,6 +27,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         telegramBot.setUpdatesListener(this);
     }
 
+    /**
+     * Метод process, основной метод нашего бота. В нём будут содержаться, базовые ответы бота, пользователю
+     * и обработка сообщений.
+     *Используется метод {@link TelegramBotUpdatesListener#startCommand(Long, String, String, String)#unknownCommand(Long)}
+     * @param updates
+     * @return произошедшие изменения
+     */
     @Override
     public int process(List<Update> updates) {
         updates.forEach(update -> {
@@ -47,7 +54,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     }
     // проверка
 
-
+    /**
+     * Метод отвечающий за комманду start. Бот, приветствует пользователя в зависимости от его данных(имени, фамилии и никнейма)
+     * @param chatId
+     * @param userName
+     * @param firstName
+     * @param lastName
+     */
     private void startCommand(Long chatId, String userName, String firstName, String lastName) {
         String textChat;
         String fullName = userName + firstName + lastName;
@@ -65,6 +78,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
+    /**
+     * Метод, созданный на случаи, когда боту задают вопросы не по алгоритму действий которые он предлагает.
+     * @param chatId
+     */
     private void unknownCommand(Long chatId) {
         var text = "Не удалось распознать команду!";
         sendMessage(chatId, text);
