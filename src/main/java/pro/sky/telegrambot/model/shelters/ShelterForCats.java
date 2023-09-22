@@ -1,7 +1,7 @@
-package pro.sky.telegrambot.model.sheters;
+package pro.sky.telegrambot.model.shelters;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import pro.sky.telegrambot.model.animals.Dog;
+import pro.sky.telegrambot.model.animals.Cat;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dog_shelter")
-public class DogShelter extends Shelter {
+@Table(name = "shelter_for_cats")
+public class ShelterForCats extends Shelter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @JsonIgnore
-    @OneToMany(mappedBy = "dog_shelter")
-    private List<Dog> dogs;
+    @OneToMany(mappedBy = "cat_shelter")
+    private List<Cat> cats;
 
-    public DogShelter(String nameShelter, String address, LocalTime workingHours) {
+    public ShelterForCats(String nameShelter, String address, LocalTime workingHours) {
         super(nameShelter, address, workingHours);
     }
 
@@ -30,19 +30,19 @@ public class DogShelter extends Shelter {
         this.id = id;
     }
 
-    public List<Dog> getDogs() {
-        return dogs;
+    public List<Cat> getCats() {
+        return cats;
     }
 
-    public void setDogs(List<Dog> dogs) {
-        this.dogs = dogs;
+    public void setCats(List<Cat> cats) {
+        this.cats = cats;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DogShelter that = (DogShelter) o;
+        ShelterForCats that = (ShelterForCats) o;
         return id == that.id;
     }
 
@@ -53,10 +53,10 @@ public class DogShelter extends Shelter {
 
     @Override
     public String toString() {
-        return "DogShelter{" +
+        return "ShelterForCats{" +
                 "id=" + id +
                 super.toString()+
-                ", dogs=" + dogs +
+                ", cats=" + cats +
                 '}';
     }
 }

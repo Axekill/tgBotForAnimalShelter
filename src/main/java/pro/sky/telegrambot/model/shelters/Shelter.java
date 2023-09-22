@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.model.sheters;
+package pro.sky.telegrambot.model.shelters;
 
 import java.time.LocalTime;
 
@@ -37,4 +37,11 @@ public abstract class Shelter {
         this.workingHours = workingHours;
     }
 
+    @Override
+    public String toString() {
+        return "nameShelter='" + nameShelter + '\'' +
+                ", address='" + address + '\'' +
+                ", workingHours=" + workingHours +
+                '}';
+    }
 }
