@@ -37,4 +37,11 @@ public abstract class Shelter {
         this.workingHours = workingHours;
     }
 
+    @Override
+    public String toString() {
+        return "nameShelter='" + nameShelter + '\'' +
+                ", address='" + address + '\'' +
+                ", workingHours=" + workingHours +
+                '}';
+    }
 }
