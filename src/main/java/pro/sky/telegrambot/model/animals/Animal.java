@@ -10,6 +10,9 @@ public abstract class Animal {
         this.age = age;
         this.breed = breed;
     }
+    public Animal(){
+
+    }
 
     public String getName() {
         return name;

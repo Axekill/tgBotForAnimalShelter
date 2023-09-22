@@ -21,6 +21,9 @@ public class Cat extends Animal {
         super(name, age, breed);
     }
 
+    public Cat() {
+    }
+
     public long getId() {
         return id;
     }

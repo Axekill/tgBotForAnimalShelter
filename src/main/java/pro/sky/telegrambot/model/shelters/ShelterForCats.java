@@ -15,11 +15,15 @@ public class ShelterForCats extends Shelter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @JsonIgnore
-    @OneToMany(mappedBy = "cat_shelter")
+    @OneToMany(mappedBy = "shelterCats")
     private List<Cat> cats;
 
     public ShelterForCats(String nameShelter, String address, LocalTime workingHours) {
         super(nameShelter, address, workingHours);
+    }
+
+    public ShelterForCats() {
+
     }
 
     public long getId() {

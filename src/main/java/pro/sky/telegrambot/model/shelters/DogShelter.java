@@ -15,12 +15,17 @@ public class DogShelter extends Shelter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @JsonIgnore
-    @OneToMany(mappedBy = "dog_shelter")
+    @OneToMany(mappedBy = "dogShelter")
     private List<Dog> dogs;
 
     public DogShelter(String nameShelter, String address, LocalTime workingHours) {
         super(nameShelter, address, workingHours);
     }
+
+    public DogShelter() {
+
+    }
+
 
     public long getId() {
         return id;

@@ -1,7 +1,9 @@
 package pro.sky.telegrambot.model.shelters;
 
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.time.LocalTime;
-
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Shelter {
     private String nameShelter;
     private String address;
@@ -11,6 +13,9 @@ public abstract class Shelter {
         this.nameShelter = nameShelter;
         this.address = address;
         this.workingHours = workingHours;
+    }
+    public Shelter(){
+
     }
 
     public String getNameShelter() {
