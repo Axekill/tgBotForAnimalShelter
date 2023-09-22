@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.model.sheters;
+package pro.sky.telegrambot.model.shelters;
 
 import java.time.LocalTime;
 
