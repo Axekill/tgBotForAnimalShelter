@@ -37,3 +37,10 @@ CREATE TABLE dogs (
     age smallint,
     breed TEXT
 )
+-- changeset akostin:8
+CREATE TABLE volunteer (
+    id SERIAL primary key,
+    name TEXT,
+    lastName TEXT,
+    email TEXT
+)
