@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dog_shelter")
+@Table(name = "dogs_shelter")
 public class DogShelter extends Shelter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
