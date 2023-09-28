@@ -93,27 +93,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         SendMessage message = new SendMessage(chatId,text);
         SendResponse response = telegramBot.execute(message);
 
-
     }
-    public  org.telegram.telegrambots.api.methods.send.SendMessage keyBoard(Long chatId){
-        org.telegram.telegrambots.api.methods.send.SendMessage message = new org.telegram.telegrambots.api.methods.send.SendMessage();
-        message.setChatId(chatId);
-        message.setText("Выберите приют");
 
-        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
-
-        List<List<InlineKeyboardButton>> rowsLine = new ArrayList<>();
-        List<InlineKeyboardButton> rowsLine1 = new ArrayList<>();
-        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
-        inlineKeyboardButton1.setText("Приют для кошек");
-        inlineKeyboardButton1.setCallbackData("ПРИЮТ ДЛЯ КОШЕК");
-        rowsLine1.add(inlineKeyboardButton1);
-        rowsLine.add(rowsLine1);
-        markup.setKeyboard(rowsLine);
-        message.setReplyMarkup(markup);
-
-
-        return message;
-    }
 
 }
