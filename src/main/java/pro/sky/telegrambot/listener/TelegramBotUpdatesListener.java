@@ -3,8 +3,6 @@ package pro.sky.telegrambot.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
@@ -36,7 +34,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     /**
      * Метод process, основной метод нашего бота. В нём будут содержаться, базовые ответы бота, пользователю
      * и обработка сообщений.
-     *Используется метод {@link TelegramBotUpdatesListener#startCommand(Long, String, String, String)#unknownCommand(Long)}
+     * Используется метод {@link TelegramBotUpdatesListener#startCommand(Long, String, String, String)#unknownCommand(Long)}
+     *
      * @param updates
      * @return произошедшие изменения
      */
@@ -63,16 +62,17 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     /**
      * Метод отвечающий за комманду start. Бот, приветствует пользователя в зависимости от его данных(имени, фамилии и никнейма)
+     *
      * @param chatId
      * @param userName
      * @param firstName
      * @param lastName
      */
     private void startCommand(Long chatId, String userName, String firstName, String lastName) {
-        String textChat = "Добро пожаловать в бот, %s ! /n" +
-                "Здесь Вы сможете узнать о приютах для животных, а так же связаться с волонтером /n" +
-                "Используйте следущие команды:" +
-                "/shelters - выбор приюта" +
+        String textChat = "Добро пожаловать в бот, %s ! %n" +
+                "Здесь Вы сможете узнать о приютах для животных, а так же связаться с волонтером %n" +
+                "Используйте следущие команды: %n" +
+                "/shelters - выбор приюта %n" +
                 "/volunteer - вызов волонтера";
         String fullName = userName + firstName + lastName;
         if (userName == null & lastName == null) {
@@ -86,18 +86,46 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    private static SendMessage sheltersCommand(Long chatId) {
-        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-        InlineKeyboardButton button1 = new InlineKeyboardButton("Приют для кошек");
-        button1.callbackData("Приют для кошек");
-        InlineKeyboardButton button2 = new InlineKeyboardButton("Приют для собак");
-        button2.callbackData("Приют для собак");
-        markupInline.addRow(button1, button2);
-        return new SendMessage(chatId, "Выберите приют:").replyMarkup(markupInline);
-    }
-    private void volunteerCommand(Long chatId) {
+    private static org.telegram.telegrambots.meta.api.methods.send.SendMessage sheltersCommand(Long chatId) {
+
+        org.telegram.telegrambots.meta.api.methods.send.SendMessage message =
+                new org.telegram.telegrambots.meta.api.methods.send.SendMessage();
+
+        message.setChatId(chatId);
+        message.setText("Выберите приют");
+
+        org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup markup =
+                new org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup();
+
+        List<List<org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton>> rowsInline =
+                new ArrayList<>();
+
+        List<org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton> rowInline = new ArrayList<>();
+
+        org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton button1 =
+                new org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton();
+        button1.setText("Приют для кошек");
+        button1.setCallbackData("Приют для кошек");
+
+        org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton button2 =
+                new org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton();
+        button1.setText("Приют для собак");
+        button2.setCallbackData("Приют для собак");
+
+        rowInline.add(button1);
+        rowInline.add(button2);
+
+        rowsInline.add(rowInline);
+        markup.setKeyboard(rowsInline);
+        message.setReplyMarkup(markup);
+
+        return message;
     }
 
+    private void volunteerCommand(Long chatId) {
+        var text = "Повсем вопросам обращайтесь к https://t.me/Axekill93";
+        sendMessage(chatId, text);
+    }
 
 
     /**
