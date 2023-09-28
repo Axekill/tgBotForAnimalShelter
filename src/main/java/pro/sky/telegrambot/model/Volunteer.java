@@ -1,12 +1,13 @@
 package pro.sky.telegrambot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "volunteer")
 public class Volunteer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String lastName;
@@ -16,6 +17,10 @@ public class Volunteer {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public Volunteer() {
+
     }
 
     public long getId() {
