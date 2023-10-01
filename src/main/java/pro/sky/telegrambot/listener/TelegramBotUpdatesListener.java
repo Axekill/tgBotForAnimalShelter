@@ -3,6 +3,8 @@ package pro.sky.telegrambot.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
@@ -52,7 +54,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     String lastName = update.message().chat().lastName();
                     startCommand(chatId, userName, firstName, lastName);
                 }
-                case SHELTERS -> sheltersCommand(chatId);
+                case SHELTERS -> telegramBot.execute(sheltersCommand(chatId));
+
                 case VOLUNTEER -> volunteerCommand(chatId);
                 default -> unknownCommand(chatId);
             }
@@ -86,38 +89,33 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    private static org.telegram.telegrambots.meta.api.methods.send.SendMessage sheltersCommand(Long chatId) {
+    private   SendMessage sheltersCommand(Long chatId) {
 
-        org.telegram.telegrambots.meta.api.methods.send.SendMessage message =
-                new org.telegram.telegrambots.meta.api.methods.send.SendMessage();
+        SendMessage message =
+                new SendMessage(chatId,"Выберите приют" );
+        //sendMessage(chatId, message.getText());
 
-        message.setChatId(chatId);
-        message.setText("Выберите приют");
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
 
-        org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup markup =
-                new org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
-        List<List<org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton>> rowsInline =
-                new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
 
-        List<org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton> rowInline = new ArrayList<>();
+        InlineKeyboardButton button1 = new InlineKeyboardButton("Приют для кошек");
 
-        org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton button1 =
-                new org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton();
-        button1.setText("Приют для кошек");
-        button1.setCallbackData("Приют для кошек");
+        button1.callbackData("Приют для кошек");
 
-        org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton button2 =
-                new org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton();
-        button1.setText("Приют для собак");
-        button2.setCallbackData("Приют для собак");
+        InlineKeyboardButton button2 =
+                new InlineKeyboardButton("Приют для собак");
+
+        button2.callbackData("Приют для собак");
 
         rowInline.add(button1);
         rowInline.add(button2);
 
         rowsInline.add(rowInline);
-        markup.setKeyboard(rowsInline);
-        message.setReplyMarkup(markup);
+        markup.addRow(button1,button2);
+        message.replyMarkup(markup);
 
         return message;
     }
