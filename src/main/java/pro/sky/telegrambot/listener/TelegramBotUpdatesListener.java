@@ -89,11 +89,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    private   SendMessage sheltersCommand(Long chatId) {
+    private SendMessage sheltersCommand(Long chatId) {
 
-        SendMessage message =
-                new SendMessage(chatId,"Выберите приют" );
-        //sendMessage(chatId, message.getText());
+        SendMessage message = new SendMessage(chatId, "Выберите приют");
 
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
 
@@ -105,8 +103,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
         button1.callbackData("Приют для кошек");
 
-        InlineKeyboardButton button2 =
-                new InlineKeyboardButton("Приют для собак");
+        InlineKeyboardButton button2 = new InlineKeyboardButton("Приют для собак");
 
         button2.callbackData("Приют для собак");
 
@@ -114,7 +111,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         rowInline.add(button2);
 
         rowsInline.add(rowInline);
-        markup.addRow(button1,button2);
+        markup.addRow(button1, button2);
         message.replyMarkup(markup);
 
         return message;
