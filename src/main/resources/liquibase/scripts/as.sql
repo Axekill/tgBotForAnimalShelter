@@ -1,24 +1,24 @@
 -- liquibase formatted sql
-
--- changeset andrey:1
-
+-- changeset andrey:2
 create table users(
-id serial primary key,
-fist_name text,
-last_name text,
-age int,
-number_phone int,
-email text,
-address text
+                      id serial primary key,
+                      fist_name text,
+                      last_name text,
+                      age int,
+                      number_phone int,
+                      email text,
+                      address text
 )
 
--- changeset akostin:2
+
+-- changeset akostin:12
 create table dog_shelter(
  id serial primary key,
  nameShelter text,
  address text,
  workingHours time
 );
+
 create table shelter_for_cats(
 id serial primary key,
 nameShelter text,
@@ -54,4 +54,10 @@ create table volunteer (
      lastName text,
      email  text
 );
+--changeset akostin:13
+alter table users
+    rename column fist_name to first_name;
+
+
+
 
