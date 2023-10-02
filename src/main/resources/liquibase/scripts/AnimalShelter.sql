@@ -1,46 +1,62 @@
 -- liquibase formatted sql
 
 -- changeset akostin:1
-CREATE TABLE dog_shelter(
- id SERIAL,
- nameShelter TEXT,
- address TEXT,
- workingHours TIME
+create table dog_shelter(
+ id serial,
+ nameShelter text,
+ address text,
+ workingHours time
 )
 -- changeset akostin:2
-ALTER TABLE dog_shelter add primary key (id)
+alter TABLE dog_shelter add primary key (id)
 
 -- changeset akostin:3
-CREATE TABLE shelter_for_cats(
-    id SERIAL,
-    nameShelter TEXT,
-    address TEXT,
-    workingHours TIME
+create table shelter_for_cats(
+    id serial,
+    nameShelter text,
+    address text,
+    workingHours time
 )
 -- changeset akostin:4
-ALTER TABLE shelter_for_cats add primary key (id)
+alter TABLE shelter_for_cats add primary key (id)
 
 -- changeset akostin:5
-CREATE TABLE cats (
-    id SERIAL,
+create table cats (
+    id serial,
     name TEXT,
     age smallint,
-    breed TEXT
+    breed text
 )
 -- changeset akostin:6
-AlTER TABLE cats add primary key (id)
+alter TABLE cats add primary key (id)
 
 -- changeset akostin:7
-CREATE TABLE dogs (
-    id SERIAL primary key,
+create table dogs (
+    id serial primary key,
     name TEXT,
     age smallint,
-    breed TEXT
+    breed text
 )
 -- changeset akostin:8
-CREATE TABLE volunteer (
-     id SERIAL primary key,
+create table volunteer (
+     id serial primary key,
      name  TEXT,
-     lastName TEXT,
-     email  TEXT
+     lastName text,
+     email  text
 )
+--changeset Andrey:9
+create table users(
+id serial primary key,
+fist_name text,
+last_name text,
+age int,
+number_phone int,
+email text,
+address text,
+adopted_cat int,
+adopted_dog int
+)
+alter table cats add shelter_cats_id int
+alter table cats add owner int
+alter table dogs add shelter_dog_id int
+alter table dogs add owner int
