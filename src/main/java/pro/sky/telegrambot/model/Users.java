@@ -22,13 +22,10 @@ public class Users {
     private String address;
 
     @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "adopted_cat")
+    @OneToMany(mappedBy = "users")
     private List<Cat> cats;
-
     @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "adopted_dog")
+    @OneToMany(mappedBy = "users")
     private List<Dog> dogs;
 
     public Users() {

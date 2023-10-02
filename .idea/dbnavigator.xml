@@ -23,6 +23,7 @@
     <open-files />
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/liquibase/scripts/as.sql" connection-id="28ab7ab7-c0b1-4b46-b200-b278aec80a32" session-id="MAIN" current-schema="AnimalShelter" />
     <mapping file-url="file://$PROJECT_DIR$/src/main/resources/liquibase/scripts/AnimalShelter.sql" connection-id="28ab7ab7-c0b1-4b46-b200-b278aec80a32" session-id="MAIN" current-schema="AnimalShelter" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">

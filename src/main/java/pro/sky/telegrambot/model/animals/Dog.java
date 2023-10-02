@@ -46,6 +46,10 @@ public class Dog extends Animal {
         return users;
     }
 
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
