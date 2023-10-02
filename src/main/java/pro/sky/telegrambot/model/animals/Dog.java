@@ -1,6 +1,7 @@
 package pro.sky.telegrambot.model.animals;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import pro.sky.telegrambot.model.Users;
 import pro.sky.telegrambot.model.shelters.DogShelter;
 
 import javax.persistence.*;
@@ -16,6 +17,10 @@ public class Dog extends Animal {
     @ManyToOne
     @JoinColumn(name = "shelter_dog_id")
     private DogShelter dogShelter;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "owner")
+    private Users users;
 
     public Dog(String name, int age, String breed) {
         super(name, age, breed);
@@ -24,7 +29,6 @@ public class Dog extends Animal {
     public Dog() {
 
     }
-
 
     public long getId() {
         return id;
@@ -36,6 +40,10 @@ public class Dog extends Animal {
 
     public void setDogShelter(DogShelter dogShelter) {
         this.dogShelter = dogShelter;
+    }
+
+    public Users getUsers() {
+        return users;
     }
 
     @Override
@@ -57,6 +65,7 @@ public class Dog extends Animal {
                 "id=" + id +
                 super.toString() +
                 ", dogShelter=" + dogShelter +
+                ", owner= " + users +
                 '}';
     }
 }
