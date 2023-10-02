@@ -1,4 +1,7 @@
 package pro.sky.telegrambot.repository;
 
-public class DogShRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import pro.sky.telegrambot.model.shelters.DogShelter;
+
+public interface DogShRepository extends JpaRepository<DogShelter,Long> {
 }

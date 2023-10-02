@@ -1,4 +1,7 @@
 package pro.sky.telegrambot.repository;
 
-public class CatRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import pro.sky.telegrambot.model.animals.Cat;
+
+public interface CatRepository extends JpaRepository<Cat,Long> {
 }
