@@ -3,9 +3,7 @@ package pro.sky.telegrambot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.model.animals.Cat;
 import pro.sky.telegrambot.model.shelters.ShelterForCats;
-import pro.sky.telegrambot.repository.CatRepository;
 import pro.sky.telegrambot.repository.CatShRepository;
 
 import java.util.Collection;

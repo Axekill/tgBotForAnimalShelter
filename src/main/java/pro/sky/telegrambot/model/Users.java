@@ -1,10 +1,12 @@
 package pro.sky.telegrambot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 import pro.sky.telegrambot.model.animals.Cat;
 import pro.sky.telegrambot.model.animals.Dog;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +16,9 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long telegramUserId;
+    @CreationTimestamp
+    private LocalDateTime firstLoginDate;
     private String firstName;
     private String lastName;
     private int age;
@@ -38,6 +43,22 @@ public class Users {
         this.numberPhone = numberPhone;
         this.email = email;
         this.address = address;
+    }
+
+    public Long getTelegramUserId() {
+        return telegramUserId;
+    }
+
+    public void setTelegramUserId(Long telegramUserId) {
+        this.telegramUserId = telegramUserId;
+    }
+
+    public LocalDateTime getFirstLoginDate() {
+        return firstLoginDate;
+    }
+
+    public void setFirstLoginDate(LocalDateTime firstLoginDate) {
+        this.firstLoginDate = firstLoginDate;
     }
 
     public Long getId() {
@@ -129,6 +150,8 @@ public class Users {
     public String toString() {
         return "Users{" +
                 "id=" + id +
+                ", telegramUserId=" + telegramUserId +
+                ", firstLoginDate=" + firstLoginDate +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +

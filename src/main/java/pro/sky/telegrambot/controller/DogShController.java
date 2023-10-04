@@ -1,13 +1,14 @@
 package pro.sky.telegrambot.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pro.sky.telegrambot.model.animals.Cat;
 import pro.sky.telegrambot.model.shelters.DogShelter;
 import pro.sky.telegrambot.service.DogShService;
 
 import java.util.Collection;
 
 @RestController
+@RequestMapping("/dog_shelter")
 public class DogShController {
 
     private final DogShService service;
@@ -15,28 +16,37 @@ public class DogShController {
     public DogShController(DogShService service) {
         this.service = service;
     }
-    @PostMapping("/addDogShelter")
-    public DogShelter addCat(@RequestBody DogShelter dogS){
-        return service.addDogSh(dogS);
+
+    @PostMapping
+    public ResponseEntity<DogShelter> addDogSh(@RequestBody DogShelter dogS) {
+        DogShelter add = service.addDogSh(dogS);
+        return ResponseEntity.ok(add);
     }
 
-    @PutMapping("{id}/editDogShelter")
-    public DogShelter editDogShelter(@RequestBody DogShelter dogS, @PathVariable long id){
-        return service.editDogShelter(dogS);
+    @PutMapping
+    public ResponseEntity<DogShelter> editDogShelter(@RequestBody DogShelter dogS) {
+        DogShelter editSh = service.editDogShelter(dogS);
+        return ResponseEntity.ok(editSh);
     }
-    @DeleteMapping("{id}/deleteDogShelters")
-    public void deleteDogShelter(@PathVariable long id){
+
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteDogShelter(@PathVariable long id) {
         service.deleteDogShelter(id);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("{id}/findDogShelter")
-    public DogShelter findDogShelter(@PathVariable long id){
-        return service.findShelterForDogs(id);
+    @GetMapping("{id}")
+    public ResponseEntity<DogShelter> findDogShelter(@PathVariable long id) {
+        DogShelter dogs = service.findShelterForDogs(id);
+        if (dogs == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dogs);
     }
 
-    @GetMapping("/allDogShelters")
-    public Collection<DogShelter> allCats(){
-        return service.getAll();
+    @GetMapping
+    public ResponseEntity<Collection<DogShelter>> allCats() {
+        return ResponseEntity.ok(service.getAll());
     }
 
 }

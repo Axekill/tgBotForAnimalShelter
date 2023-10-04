@@ -2,8 +2,6 @@ package pro.sky.telegrambot.listener;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
-import com.pengrad.telegrambot.model.Chat;
-import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.Users;
 import pro.sky.telegrambot.repository.UsersRepository;
+import pro.sky.telegrambot.service.UsersService;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -30,13 +29,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private static final String VOLUNTEER = "/volunteer";
 
     private final UsersRepository userRepository;
+    private final UsersService usersService;
 
 
     @Autowired
     private TelegramBot telegramBot;
 
-    public TelegramBotUpdatesListener(UsersRepository userRepository) {
+    public TelegramBotUpdatesListener(UsersRepository userRepository, UsersService usersService, TelegramBot telegramBot) {
         this.userRepository = userRepository;
+        this.usersService = usersService;
+        this.telegramBot = telegramBot;
     }
 
 
@@ -57,11 +59,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
+            var textMessage = update.message();
+            var telegramUser = textMessage.from();
+            var users = registerUsers(telegramUser);
+
             var text = update.message().text();
             Long chatId = update.message().chat().id();
             switch (text) {
                 case START -> {
-                    registerUser(update.message());
                     String userName = update.message().chat().username();
                     String firstName = update.message().chat().firstName();
                     String lastName = update.message().chat().lastName();
@@ -152,19 +157,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         SendResponse response = telegramBot.execute(message);
     }
 
-    private void registerUser(Message message){
-// тут нужна проверка на то, что пользователь ещё не существует, что бы одного пользователя не сохраняло в бд 2 раза
-      Long chatId = message.chat().id();
-      Chat chat =message.chat();
-            Users user = new Users();
-            user.setId(chatId);
-            user.setFirstName(chat.firstName());
-            user.setLastName(chat.lastName());
-            user.setAddress(user.getAddress());
-            user.setAge(user.getAge());
-            userRepository.save(user);
-
-
+    private Users registerUsers(User telegramUser) {
+        return usersService.findOrSaveUsers(telegramUser);
     }
 
 }
+
+

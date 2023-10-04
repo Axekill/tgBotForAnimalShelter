@@ -58,6 +58,10 @@ create table volunteer (
 alter table users
     rename column fist_name to first_name;
 
+-- changeset andrey:14
+alter table users
+add column telegram_user_id bigint,
+add column first_login_date timestamp;
 
 
 

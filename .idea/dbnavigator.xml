@@ -22,8 +22,21 @@
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="28ab7ab7-c0b1-4b46-b200-b278aec80a32" dataset="public.users" active-filter-id="" />
+    <filter-actions connection-id="28ab7ab7-c0b1-4b46-b200-b278aec80a32" dataset="public.databasechangeloglock" active-filter-id="c005d539-38ab-420f-b439-6a700e4c2562">
+      <filter id="c005d539-38ab-420f-b439-6a700e4c2562" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="28ab7ab7-c0b1-4b46-b200-b278aec80a32" dataset="public.databasechangelog" active-filter-id="" />
+  </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
+  </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
     <mapping file-url="file://$PROJECT_DIR$/src/main/resources/liquibase/scripts/as.sql" connection-id="28ab7ab7-c0b1-4b46-b200-b278aec80a32" session-id="MAIN" current-schema="AnimalShelter" />
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/liquibase/scripts/drops.sql" connection-id="28ab7ab7-c0b1-4b46-b200-b278aec80a32" session-id="MAIN" current-schema="AnimalShelter" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />

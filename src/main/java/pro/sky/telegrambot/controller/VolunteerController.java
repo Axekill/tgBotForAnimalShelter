@@ -1,14 +1,14 @@
 package pro.sky.telegrambot.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.telegrambot.model.Volunteer;
-import pro.sky.telegrambot.model.shelters.DogShelter;
 import pro.sky.telegrambot.service.VolunteerService;
 
 import java.util.Collection;
 
 @RestController
+@RequestMapping("/volunteer")
 public class VolunteerController {
 
     private final VolunteerService service;
@@ -16,7 +16,33 @@ public class VolunteerController {
     public VolunteerController(VolunteerService service) {
         this.service = service;
     }
-    @GetMapping("/allVolunteers")
+    @PostMapping
+    public ResponseEntity<Volunteer> add(@RequestBody Volunteer volunteer) {
+        Volunteer add = service.add(volunteer);
+        return ResponseEntity.ok(add);
+    }
+
+    @PutMapping
+    public ResponseEntity<Volunteer> editVolunteer(@RequestBody Volunteer volunteer) {
+        Volunteer edit = service.edit(volunteer);
+        return ResponseEntity.ok(edit);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteVolunteer(@PathVariable long id) {
+        service.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Volunteer> findVolunteer(@PathVariable long id) {
+        Volunteer volunteer = service.find(id);
+        if (volunteer == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(volunteer);
+    }
+    @GetMapping
     public Collection<Volunteer> allVolunteers(){
         return service.allVolunteer();
     }

@@ -1,7 +1,6 @@
 package pro.sky.telegrambot.model.animals;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import pro.sky.telegrambot.model.Users;
 import pro.sky.telegrambot.model.shelters.ShelterForCats;
 
 import javax.persistence.*;
@@ -20,7 +19,7 @@ public class Cat extends Animal {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner")
-    private Users users;
+    private pro.sky.telegrambot.model.Users users;
 
     public Cat(String name, int age, String breed) {
         super(name, age, breed);
