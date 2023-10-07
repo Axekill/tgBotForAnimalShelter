@@ -2,6 +2,7 @@ package pro.sky.telegrambot.listener;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
@@ -27,6 +28,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private static final String START = "/start";
     private static final String SHELTERS = "/shelters";
     private static final String VOLUNTEER = "/volunteer";
+    private static final String CAT_SHELTERS = "ПРИЮТ ДЛЯ КОШЕК";
+    private static final String DOG_SHELTERS = "ПРИЮТ ДЛЯ СОБАК";
 
     private final UsersRepository userRepository;
     private final UsersService usersService;
@@ -72,12 +75,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     String lastName = update.message().chat().lastName();
 
                     startCommand(chatId, userName, firstName, lastName);
-                }
-                case SHELTERS -> telegramBot.execute(sheltersCommand(chatId));
 
+                }
+                case SHELTERS -> {
+                    telegramBot.execute(sheltersCommand(chatId));
+
+                }
                 case VOLUNTEER -> volunteerCommand(chatId);
                 default -> unknownCommand(chatId);
             }
+            buttonTap(chatId);
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
@@ -111,20 +118,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private SendMessage sheltersCommand(Long chatId) {
 
         SendMessage message = new SendMessage(chatId, "Выберите приют");
-
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
 
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
 
         InlineKeyboardButton button1 = new InlineKeyboardButton("Приют для кошек");
-
-        button1.callbackData("Приют для кошек");
+        button1.callbackData(CAT_SHELTERS);
 
         InlineKeyboardButton button2 = new InlineKeyboardButton("Приют для собак");
-
-        button2.callbackData("Приют для собак");
+        button2.callbackData(DOG_SHELTERS);
 
         rowInline.add(button1);
         rowInline.add(button2);
@@ -139,6 +142,19 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void volunteerCommand(Long chatId) {
         var text = "Повсем вопросам обращайтесь к https://t.me/Axekill93";
         sendMessage(chatId, text);
+    }
+
+    private void buttonTap(Long chatId) {
+        CallbackQuery callbackQuery = new CallbackQuery();
+        if (callbackQuery.data().equals(CAT_SHELTERS)) {
+            String cat = "вы выбрали приют для кошек";
+            sendMessage(chatId, cat);
+        } else if (callbackQuery.data().equals(DOG_SHELTERS)) {
+            String dog = "вы выбрпали приют для собак";
+            sendMessage(chatId, dog);
+        }
+
+
     }
 
 
