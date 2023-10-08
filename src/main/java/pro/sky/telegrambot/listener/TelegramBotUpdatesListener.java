@@ -7,6 +7,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import com.pengrad.telegrambot.request.EditMessageText;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
@@ -62,29 +63,38 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-            var textMessage = update.message();
-            var telegramUser = textMessage.from();
-            var users = registerUsers(telegramUser);
 
             var text = update.message().text();
-            Long chatId = update.message().chat().id();
+            long chatId = update.message().chat().id();
+
             switch (text) {
                 case START -> {
                     String userName = update.message().chat().username();
                     String firstName = update.message().chat().firstName();
                     String lastName = update.message().chat().lastName();
+                    var textMessage = update.message();
+                    var telegramUser = textMessage.from();
+                    registerUsers(telegramUser);
 
                     startCommand(chatId, userName, firstName, lastName);
-
                 }
                 case SHELTERS -> {
                     telegramBot.execute(sheltersCommand(chatId));
-
                 }
                 case VOLUNTEER -> volunteerCommand(chatId);
                 default -> unknownCommand(chatId);
             }
-            buttonTap(chatId);
+            String calBackData = update.callbackQuery().data();
+            int messageId = update.callbackQuery().message().messageId();
+            Long chatIds = update.callbackQuery().message().chat().id();
+            if (calBackData.equals(CAT_SHELTERS)) {
+                EditMessageText messageText = new EditMessageText(chatIds, messageId, "вы выбрали приют для кошек");
+                executeEditMessageText(String.valueOf(messageText), chatIds, messageId);
+            } else if (calBackData.equals(DOG_SHELTERS)) {
+                EditMessageText messageText = new EditMessageText(chatIds, messageId, "вы выбрали приют для собак");
+                executeEditMessageText(String.valueOf(messageText), chatIds, messageId);
+            }
+            // buttonTap(chatIds,messageId);
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
@@ -144,19 +154,23 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         sendMessage(chatId, text);
     }
 
-    private void buttonTap(Long chatId) {
+    private void buttonTap(Long chatIds, int messageId) {
         CallbackQuery callbackQuery = new CallbackQuery();
         if (callbackQuery.data().equals(CAT_SHELTERS)) {
-            String cat = "вы выбрали приют для кошек";
-            sendMessage(chatId, cat);
+            EditMessageText messageText = new EditMessageText(chatIds, messageId, "вы выбрали приют для кошек");
+            executeEditMessageText(String.valueOf(messageText), chatIds, messageId);
         } else if (callbackQuery.data().equals(DOG_SHELTERS)) {
-            String dog = "вы выбрпали приют для собак";
-            sendMessage(chatId, dog);
+            EditMessageText messageText = new EditMessageText(chatIds, messageId, "вы выбрали приют для собак");
+            executeEditMessageText(String.valueOf(messageText), chatIds, messageId);
+
         }
-
-
     }
 
+
+    private void executeEditMessageText(String text, long chatId, int messageId) {
+        EditMessageText message = new EditMessageText(chatId, messageId, text);
+        telegramBot.execute(message);
+    }
 
     /**
      * Метод, созданный на случаи, когда боту задают вопросы не по алгоритму действий которые он предлагает.
